@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://omnistack:omnistack@cluster0-jyj7u.mongodb.net/omnistack?retryWrites=true', {
+mongoose.connect('mongodb+srv://omnistack:1234@cluster0-jyj7u.mongodb.net/omnistack?retryWrites=true', {
     useNewUrlParser: true
 });
 
