@@ -4,7 +4,7 @@ import { distanceInWords } from 'date-fns'
 import pt from 'date-fns/locale/pt'
 import Dropzone from 'react-dropzone'
 import socket from 'socket.io-client'
-
+import {Link} from 'react-router-dom'
 import { MdInsertDriveFile} from 'react-icons/md'
 
 import logo from '../../assets/logo.svg'
@@ -22,7 +22,7 @@ class Box extends Component{
         this.setState({ box: response.data })
     }
 
-    subscribeTonewFiles = () =>{
+    subscribeToNewFiles = () =>{
         const box = this.props.match.params.id
         const io = socket('https://omnistack-ulisses.herokuapp.com')
         
@@ -45,19 +45,20 @@ class Box extends Component{
     }
 
     render(){
+        
         return(
             <div id="box-container">
                 <header>
                     <img src={logo} alt='' />
-                    <h1>this.state.box.title</h1>
+                    <h1>{this.state.box.title}</h1>
                 </header>
 
                 <Dropzone onDropAccepted={this.handleUpload}>
-                    {(getRootProps, getInputProps) => (
-                        <div className='upload' {...getRootProps}>
-                            <input {...getInputProps}/>
+                    {({getRootProps, getInputProps}) => (
+                        <div className='upload' {... getRootProps()}>
+                            <input {... getInputProps()}/>
 
-                            <a>Arraste ou clique aqui</a>
+                            <p>Arraste ou clique aqui</p>
                         </div>
                     )}
                 </Dropzone>
@@ -66,10 +67,10 @@ class Box extends Component{
                     {
                         this.state.box.files && this.state.box.files.map((file) => (
                             <li key={file._id}>
-                                <a className="fileInfo" href={file.url} target='_blank'>
+                                <Link className="fileInfo" to={file.url} >
                                     <MdInsertDriveFile size={24} color='#A5Cfff'/>
                                     <strong>{file.title}</strong>
-                                </a>
+                                </Link>
                                 <span>há{" "}{distanceInWords(file.createdAt, new Date(), {
                                     locale: pt
                                 })}</span>
